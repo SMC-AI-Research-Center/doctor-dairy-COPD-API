@@ -1,5 +1,8 @@
 # 파일 업로드 API 사용법 가이드
 
+> ⚠️ **현재 미구현**: `/app/copd/file/upload`, `/app/copd/files/...`, `/app/copd/files/list/{USER_UUID}` 는
+> 서버에 없습니다 (호출 시 404). 음성 업로드는 `/app/copd/voice/file`, `/app/copd/survey-voice` 를 사용하세요.
+
 ## 📁 파일 업로드 방법
 
 ### 1. 음성 파일 업로드 (전용)

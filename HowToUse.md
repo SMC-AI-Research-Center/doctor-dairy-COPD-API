@@ -200,16 +200,43 @@ curl -X POST "http://14.63.89.203:18000/app/copd/survey" \
 
 ### 성공 응답
 
-모든 API는 성공 시 다음과 같은 형식으로 응답합니다:
+성공 시 HTTP 200 과 함께 `result`, 저장된 JSON 경로 `filepath` 를 반환합니다.
 
+`basic`, `oximeter`, `chair-stand`, `survey`:
 ```json
 {
-  "status": "success",
-  "message": "Data saved successfully",
-  "data": {
-    "USER_UUID": "SS00001",
-    "timestamp": "2025-01-21T10:30:00"
+  "result": "success",
+  "filepath": "./data/SS00001/20250121_143052123456_basic.json"
+}
+```
+
+`survey-voice` (업로드한 원본 파일명과 서버 저장 경로 추가):
+```json
+{
+  "result": "success",
+  "filepath": "./data/SS00001/20250121_143052123456_survey-voice.json",
+  "uploaded_files": {
+    "voice_pre_ah": "pre_ah.wav",
+    "voice_post_ah": "post_ah.wav",
+    "voice_pre_paragraph": "pre_paragraph.wav",
+    "voice_post_paragraph": "post_paragraph.wav"
+  },
+  "file_paths": {
+    "voice_pre_ah": "./data/SS00001/20250121_143052123456_pre_ah_a1b2c3d4.wav",
+    "voice_post_ah": "./data/SS00001/20250121_143052123789_post_ah_e5f6g7h8.wav",
+    "voice_pre_paragraph": "./data/SS00001/20250121_143052124012_paragraph_1_i9j0k1l2.wav",
+    "voice_post_paragraph": "./data/SS00001/20250121_143052124345_paragraph_2_m3n4o5p6.wav"
   }
+}
+```
+
+`voice/file`:
+```json
+{
+  "result": "success",
+  "filepath": "./data/SS00001/20250121_143052123456_voice.json",
+  "uploaded_file": "pre_ah.wav",
+  "file_path": "./data/SS00001/20250121_143052123123_a1b2c3d4.wav"
 }
 ```
 
@@ -220,9 +247,11 @@ curl -X POST "http://14.63.89.203:18000/app/copd/survey" \
 {
   "detail": [
     {
-      "loc": ["body", "data", "MBS"],
-      "msg": "ensure this value is less than or equal to 10",
-      "type": "value_error.number.not_le"
+      "type": "less_than_equal",
+      "loc": ["body", "MBS"],
+      "msg": "Input should be less than or equal to 10",
+      "input": "11",
+      "ctx": {"le": 10}
     }
   ]
 }
@@ -297,8 +326,9 @@ JSON 데이터는 큰따옴표(`"`)를 사용해야 하며, 마지막 항목에�
 **파일 저장 경로**: `./data/USER_UUID/`
 
 **파일명 형식**:
-- 음성 파일: `YYYYMMDD_timestamp_{file_type}_{random_id}.{extension}`
-- JSON 메타데이터: `YYYYMMDD_timestamp_{data_type}.json`
+- 음성 파일: `YYYYMMDD_HHMMSSffffff_{file_type}_{random_id}.{extension}`
+- JSON 메타데이터: `YYYYMMDD_HHMMSSffffff_{data_type}.json`
+- `HHMMSSffffff` 는 시분초+마이크로초 (같은 초에 여러 번 보내도 덮어쓰지 않음)
 
 **예시**:
 - `20250121_143052123456_pre_ah_a1b2c3d4.wav`

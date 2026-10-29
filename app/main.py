@@ -23,11 +23,6 @@ def read_root():
                 "/app/copd/survey",
                 "/app/copd/voice",
                 "/app/copd/voice/file"
-            ],
-            "file_management": [
-                "/app/copd/file/upload",
-                "/app/copd/files/{file_type}/{date}/{filename}",
-                "/app/copd/files/list/{USER_UUID}"
             ]
         }
     }
