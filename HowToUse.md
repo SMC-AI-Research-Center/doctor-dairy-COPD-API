@@ -206,7 +206,7 @@ curl -X POST "http://14.63.89.203:18000/app/copd/survey" \
 ```json
 {
   "result": "success",
-  "filepath": "./data/SS00001/20250121_143052123456_basic.json"
+  "filepath": "./data/SS00001/20250121_143052_basic.json"
 }
 ```
 
@@ -214,7 +214,7 @@ curl -X POST "http://14.63.89.203:18000/app/copd/survey" \
 ```json
 {
   "result": "success",
-  "filepath": "./data/SS00001/20250121_143052123456_survey-voice.json",
+  "filepath": "./data/SS00001/20250121_143052_survey-voice.json",
   "uploaded_files": {
     "voice_pre_ah": "pre_ah.wav",
     "voice_post_ah": "post_ah.wav",
@@ -222,10 +222,10 @@ curl -X POST "http://14.63.89.203:18000/app/copd/survey" \
     "voice_post_paragraph": "post_paragraph.wav"
   },
   "file_paths": {
-    "voice_pre_ah": "./data/SS00001/20250121_143052123456_pre_ah_a1b2c3d4.wav",
-    "voice_post_ah": "./data/SS00001/20250121_143052123789_post_ah_e5f6g7h8.wav",
-    "voice_pre_paragraph": "./data/SS00001/20250121_143052124012_paragraph_1_i9j0k1l2.wav",
-    "voice_post_paragraph": "./data/SS00001/20250121_143052124345_paragraph_2_m3n4o5p6.wav"
+    "voice_pre_ah": "./data/SS00001/20250121_143052_pre_ah_a1b2c3d4.wav",
+    "voice_post_ah": "./data/SS00001/20250121_143052_post_ah_e5f6g7h8.wav",
+    "voice_pre_paragraph": "./data/SS00001/20250121_143052_paragraph_1_i9j0k1l2.wav",
+    "voice_post_paragraph": "./data/SS00001/20250121_143052_paragraph_2_m3n4o5p6.wav"
   }
 }
 ```
@@ -234,9 +234,9 @@ curl -X POST "http://14.63.89.203:18000/app/copd/survey" \
 ```json
 {
   "result": "success",
-  "filepath": "./data/SS00001/20250121_143052123456_voice.json",
+  "filepath": "./data/SS00001/20250121_143052_voice.json",
   "uploaded_file": "pre_ah.wav",
-  "file_path": "./data/SS00001/20250121_143052123123_a1b2c3d4.wav"
+  "file_path": "./data/SS00001/20250121_143052_a1b2c3d4.wav"
 }
 ```
 
@@ -326,16 +326,16 @@ JSON 데이터는 큰따옴표(`"`)를 사용해야 하며, 마지막 항목에�
 **파일 저장 경로**: `./data/USER_UUID/`
 
 **파일명 형식**:
-- 음성 파일: `YYYYMMDD_HHMMSSffffff_{file_type}_{random_id}.{extension}`
-- JSON 메타데이터: `YYYYMMDD_HHMMSSffffff_{data_type}.json`
-- `HHMMSSffffff` 는 시분초+마이크로초 (같은 초에 여러 번 보내도 덮어쓰지 않음)
+- 음성 파일: `YYYYMMDD_HHMMSS_{file_type}_{random_id}.{extension}`
+- JSON 메타데이터: `YYYYMMDD_HHMMSS_{data_type}.json`
+- 같은 초에 같은 데이터 타입이 다시 오면 `YYYYMMDD_HHMMSS_{data_type}_1.json`, `_2` ... 로 저장 (덮어쓰지 않음)
 
 **예시**:
-- `20250121_143052123456_pre_ah_a1b2c3d4.wav`
-- `20250121_143055123456_post_ah_e5f6g7h8.wav`
-- `20250121_143058123456_paragraph_1_i9j0k1l2.wav`
-- `20250121_143101123456_paragraph_2_m3n4o5p6.wav`
-- `20250121_143102123456_basic.json`
+- `20250121_143052_pre_ah_a1b2c3d4.wav`
+- `20250121_143055_post_ah_e5f6g7h8.wav`
+- `20250121_143058_paragraph_1_i9j0k1l2.wav`
+- `20250121_143101_paragraph_2_m3n4o5p6.wav`
+- `20250121_143102_basic.json`
 
 ---
 

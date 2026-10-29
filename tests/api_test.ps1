@@ -71,6 +71,11 @@ $v2 = Invoke-Case 'voice/file' 200 @('-X', 'POST', "$Base/app/copd/voice/file", 
 $p1 = try { ($v1 | ConvertFrom-Json).filepath } catch { $null }
 $p2 = try { ($v2 | ConvertFrom-Json).filepath } catch { $null }
 Add-Result 'voice / voice/file 저장 경로 다름' 'True' ([bool]($p1 -and $p2 -and $p1 -ne $p2)) "$p1 | $p2"
+# 같은 data_type 연속 전송 → 두 번째는 _1 등 다른 경로여야 한다
+$cs = @{ USER_UUID = $Uuid; data = @{ CS_count = 3.0 } }
+$c1 = try { ((Json 'chair-stand 연속 #1' 200 '/app/copd/chair-stand' $cs) | ConvertFrom-Json).filepath } catch { $null }
+$c2 = try { ((Json 'chair-stand 연속 #2' 200 '/app/copd/chair-stand' $cs) | ConvertFrom-Json).filepath } catch { $null }
+Add-Result 'chair-stand 연속 저장 경로 다름' 'True' ([bool]($c1 -and $c2 -and $c1 -ne $c2)) "$c1 | $c2"
 # GET / 이 안내하는 엔드포인트가 전부 실제로 존재해야 한다
 $listed = @(($root | ConvertFrom-Json).endpoints.PSObject.Properties.Value | % { $_ })
 $paths = @((Invoke-RestMethod "$Base/openapi.json").paths.PSObject.Properties.Name)

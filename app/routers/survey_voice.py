@@ -55,7 +55,7 @@ async def upload_survey_voice_data(
     async def save_voice_file(file: UploadFile, file_type: str, transcription: Optional[str]) -> SingleVoiceFile:
         now = datetime.now()
         date_part = now.strftime("%Y%m%d")
-        timestamp = now.strftime("%H%M%S%f")
+        timestamp = now.strftime("%H%M%S")
         file_extension = os.path.splitext(file.filename)[1].lower()
         safe_filename = f"{date_part}_{timestamp}_{file_type}_{uuid.uuid4().hex[:8]}{file_extension}"
         file_path = os.path.join(upload_dir, safe_filename)

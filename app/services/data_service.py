@@ -42,12 +42,23 @@ def save_data(data):
     data_type = _extract_data_type(data)
     now = datetime.now()
     date_part = now.strftime("%Y%m%d")
-    timestamp = now.strftime("%H%M%S%f")
+    timestamp = now.strftime("%H%M%S")
     filename = f"{date_part}_{timestamp}_{data_type}.json"
     filepath = os.path.join(save_dir, filename)
 
     # Pydantic 모델을 dict로 변환 후 저장
-    with open(filepath, "w", encoding="utf-8") as f:
+    # 같은 초에 같은 data_type 이 들어오면 _1, _2 ... 를 붙여 덮어쓰기 방지
+    # ("x" 모드라 동시 요청끼리도 같은 파일을 잡지 않음)
+    n = 0
+    while True:
+        try:
+            f = open(filepath, "x", encoding="utf-8")
+            break
+        except FileExistsError:
+            n += 1
+            filepath = os.path.join(save_dir, f"{date_part}_{timestamp}_{data_type}_{n}.json")
+
+    with f:
         json.dump(data.dict(), f, ensure_ascii=False, indent=2)
 
     return {"result": "success", "filepath": filepath}

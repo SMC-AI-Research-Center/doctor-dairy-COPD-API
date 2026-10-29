@@ -45,7 +45,7 @@ async def upload_voice_file(
     # 파일명: YYYYMMDD_timestamp_*.*
     now = datetime.now()
     date_part = now.strftime("%Y%m%d")
-    timestamp = now.strftime("%H%M%S%f")
+    timestamp = now.strftime("%H%M%S")
     safe_filename = f"{date_part}_{timestamp}_{uuid.uuid4().hex[:8]}{file_extension}"
     file_path = os.path.join(upload_dir, safe_filename)
     
